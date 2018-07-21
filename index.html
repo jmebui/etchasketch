@@ -5,20 +5,72 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<h1>Etch-A-Sketch</h1>
-	<div id="container"></div>
+	<div class="container">
+		<h1>Etch-A-Sketch</h1>
+		<div class="buttons">
+			<button id="reset">Reset</button>
+			<button id="resize">Change Grid Size</button>
+		</div>
+		<div class="grid">
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
-	const container = document.querySelector('#container');
-	for (i = 0; i <256; i++) {
-		const grid = document.createElement('div');
-		grid.classList.add('grid');
-		container.appendChild(grid);		
+	let size = 10;
+
+	const container = document.querySelector('.grid');
+
+	function createGrid () {
+		for (i = 0; i < size * size; i++) {
+			let griditem = document.createElement('div');
+			griditem.classList.add('griditem');
+			container.appendChild(griditem);	
+			griditem.style.height = (600/size) + "px";
+			griditem.style.width = (600/size) + "px";
+
+		}
+
+		const griditem = document.querySelectorAll('griditem');
+
+		griditem.addEventListener('click', function (e) {
+			this.style.background = "#000fff";
+		});
+
+		griditem.addEventListener('mousemove', function (e) {
+			if (e.buttons == 1) {
+				this.style.background = "#ffffff";
+			}
+			if (e.buttons == 2) {
+				this.style.background = "#000000";
+			}
+		});
 	}
 
-	document.addEventListener("mouseover"), function () {
-		grid.classList.add('hover');
+	createGrid();
+
+
+	function reset() {
+		container.removeChild(container.firstChild);
+		createGrid();
 	}
-	
+
+	function resize() {
+		size = prompt("Enter a number");
+		console.log("size udpated");
+		container.innerHTML = "";
+		createGrid();
+	}
+
+	document.getElementById('reset').addEventListener("click",function(e) {
+		reset();
+	})
+
+	document.getElementById('resize').addEventListener("click",function(e) {
+		console.log("click");
+		resize();
+		console.log("clickend");
+	})
+
+
 </script>
 </html>
